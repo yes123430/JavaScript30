@@ -25,6 +25,17 @@
     /*
       misc styles, nothing to do with CSS variables
     */
+    :root{
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+    
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
 
     body {
       text-align: center;
@@ -48,18 +59,44 @@
     (function(){
       /*
         DOM
-        change、
+        1. change、mousemove 的事件
+        2. css3 自訂變數 例如 --name  如何使用 例如 padding: var(--spacing);
+
       */
       const inputs = document.querySelectorAll('.controls input');
 
       inputs.forEach(function(input){
-        console.log(input);
         input.addEventListener('change',changeHandler);
+        input.addEventListener('mousemove',changeHandler);
       })
 
       function changeHandler(){
-
+        console.log(this);
+        var imgObject = document.querySelector('img');
+        
+        const unit = this.dataset.sizing || '';
+        document.documentElement.style.setProperty('--'+this.name,this.value+unit);
+        
+        //document.querySelector('img').style['pandding'] = 80+ 'px'; element.style['XX'] 中誇號用法
+        
+        /* swintch 範例使用
+        switch(this.name){
+          case 'base':
+            console.log('123');
+            imgObject.style.backgroundColor = this.value;
+            break;
+          case 'blur':
+            console.log('456');
+            imgObject.style.filter = `blur(${this.value}px)`;
+            break;
+          case 'spacing':
+            imgObject.style.padding = this.value+ 'px';
+            break;
+        }
+        */
       }
+
+
     })()
   </script>
 
